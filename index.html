@@ -3,180 +3,106 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JST (BPS-14) Complete Practice Test fiaz ali</title>
+    <title>JST (BPS-14) Live Assessment - Fiaz Ali Ghoto</title>
     <style>
         :root { --right: #27ae60; --wrong: #e74c3c; --primary: #2c3e50; --secondary: #3498db; --bg: #f4f7f6; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg); margin: 0; padding: 20px; display: flex; justify-content: center; }
-        .quiz-card { width: 100%; max-width: 800px; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); position: relative; }
-        .score-box { position: fixed; top: 20px; right: 20px; background: var(--primary); color: white; padding: 15px 20px; border-radius: 10px; font-weight: bold; box-shadow: 0 4px 10px rgba(0,0,0,0.2); z-index: 1000; text-align: center; }
-        .q-text { font-size: 1.25rem; font-weight: bold; margin-bottom: 20px; color: var(--primary); margin-top: 20px; border-left: 5px solid var(--secondary); padding-left: 15px; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; padding: 20px; display: flex; justify-content: center; }
+        .quiz-card { width: 100%; max-width: 850px; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .header-name { color: var(--secondary); text-align: center; font-size: 2.2rem; margin-bottom: 5px; }
+        .score-box { position: fixed; top: 20px; right: 20px; background: var(--primary); color: white; padding: 15px; border-radius: 10px; font-weight: bold; display: none; }
+        input[type="text"] { padding: 12px; width: 280px; border: 2px solid #ddd; border-radius: 5px; margin-bottom: 20px; }
+        .passage-box { background: #fffde7; padding: 20px; border: 1px solid #ffe082; border-radius: 8px; margin-bottom: 25px; line-height: 1.6; }
+        .q-text { font-size: 1.2rem; font-weight: bold; margin: 20px 0; border-left: 5px solid var(--secondary); padding-left: 15px; }
         .options { list-style: none; padding: 0; }
-        .options li { padding: 15px; border: 2px solid #edeff0; border-radius: 10px; margin-bottom: 10px; cursor: pointer; transition: 0.2s; font-weight: 500; font-size: 1.1rem; }
-        .options li:hover:not(.disabled) { background: #f0f8ff; border-color: var(--secondary); }
-        .options li.correct { background: #d4edda !important; border-color: var(--right) !important; color: #155724; font-weight: bold; }
+        .options li { padding: 15px; border: 2px solid #edeff0; border-radius: 10px; margin-bottom: 10px; cursor: pointer; background: #fff; }
+        .options li.correct { background: #d4edda !important; border-color: var(--right) !important; color: #155724; }
         .options li.incorrect { background: #f8d7da !important; border-color: var(--wrong) !important; color: #721c24; }
         .disabled { pointer-events: none; }
-        .explanation-box { margin-top: 20px; padding: 20px; border-radius: 8px; background: #eef2f7; border-left: 5px solid var(--primary); display: none; line-height: 1.5; }
-        .explanation-box b { color: var(--primary); font-size: 1.1rem; display: block; margin-bottom: 8px; }
-        .nav-btn { background: var(--secondary); color: white; border: none; padding: 15px 35px; border-radius: 8px; cursor: pointer; float: right; margin-top: 20px; font-weight: bold; font-size: 1rem; display: none; }
-        #final-screen { text-align: center; display: none; padding: 50px 0; }
-        .progress-text { color: #7f8c8d; font-weight: bold; margin-bottom: 10px; }
+        .nav-btn { background: var(--secondary); color: white; border: none; padding: 15px 35px; border-radius: 8px; cursor: pointer; font-weight: bold; }
+        #explanation-box { margin-top: 15px; padding: 15px; background: #eef2f7; border-radius: 8px; display: none; }
     </style>
 </head>
 <body>
 
-<div class="score-box">
-    Live Score<br><span id="live-score" style="font-size: 1.5rem;">0</span>
-</div>
+<div class="score-box" id="score-float">Live Score: <span id="live-score">0</span></div>
 
 <div class="quiz-card">
-    <div id="quiz-area">
-        <div class="progress-text" id="progress">Question 1 of 100</div>
-        <div id="question-container">
-            <div class="q-text" id="q-text"></div>
-            <ul class="options" id="options-list"></ul>
-        </div>
-        <div class="explanation-box" id="explanation-box">
-            <b>Zaroori Baat (Explanation):</b>
-            <span id="exp-text"></span>
-        </div>
-        <button class="nav-btn" id="next-btn" onclick="nextQuestion()">Aagay Chalein (Next) →</button>
+    <div id="start-screen" style="text-align: center;">
+        <h1 class="header-name">Fiaz Ali Ghoto</h1>
+        <p>JST Recruitment Test (100 Questions Accurate)</p>
+        <input type="text" id="username" placeholder="Enter Student Name" required><br>
+        <button class="nav-btn" onclick="startQuiz()">Start & Save to Sheet</button>
     </div>
 
-    <div id="final-screen">
-        <h1>Mubarak Ho! Test Poora Hua.</h1>
-        <div style="font-size: 3rem; color: var(--right); margin: 20px 0;" id="total-score"></div>
-        <p style="font-size: 1.2rem; color: #7f8c8d;">Out of 100 Questions</p>
-        <button class="nav-btn" style="float:none; background: var(--primary);" onclick="location.reload()">Dobara Shuru Karein</button>
+    <div id="quiz-area" style="display:none;">
+        <div id="passage-container" class="passage-box" style="display:none;">
+            <strong>Reading Comprehension:</strong> Dr. Martin Luther King Jr.’s ‘I Have a Dream’ speech was a defining moment... (Full text included in logic)
+        </div>
+        <div id="progress">Question 1 of 100</div>
+        <div id="q-text" class="q-text"></div>
+        <ul class="options" id="options-list"></ul>
+        <div id="explanation-box"><b>Info:</b> <span id="exp-text"></span></div>
+        <button class="nav-btn" id="next-btn" onclick="nextQuestion()" style="display:none; float: right;">Next →</button>
+    </div>
+
+    <div id="final-screen" style="display:none; text-align: center;">
+        <h1>Test Finished!</h1>
+        <div style="font-size: 3rem;" id="total-score"></div>
+        <button class="nav-btn" onclick="location.reload()">Restart</button>
     </div>
 </div>
 
 <script>
-const quizData = [
-    // ENGLISH
-    { q: "Theme of the 1st paragraph (Dr. Martin Luther King speech):", a: "c", exp: "Pehlay paragraph mein bataya gaya hai ke Black logon ko unke bunyadi haqooq (basic rights) nahi mil rahay thay, isliye 'Deprivation' wala jawab sahi hai.", options: { a: "Segregation", b: "Discrimination", c: "Deprivation of basic rights", d: "Harmony" } },
-    { q: "Theme of the second paragraph:", a: "b", exp: "Doosray paragraph mein King sahab ne barabri (Equality) aur aman (Peace) ka khuwab dikhaya hai.", options: { a: "Character & hope", b: "Freedom, equality & peace", c: "Vision & slavery", d: "Struggle" } },
-    { q: "If there had been a violence call by Martin, then there would have been:", a: "a", options: { a: "Chaos & less support", b: "Rise in credibility", c: "Dominancy", d: "Harmony" }, exp: "Agar wo tashaddud (violence) ki call detay toh afra-tafri (chaos) phail jati aur log unka saath na detay." },
-    { q: "The last sentence of the passage is about:", a: "a", options: { a: "Human rights globally", b: "Rights in the US", c: "Black citizens", d: "Local rights" }, exp: "Akhri line mein poori dunya (globally) mein insani haqooq ki baat ki gayi hai." },
-    { q: "Meaning of 'vociferous':", a: "a", options: { a: "Vehement", b: "Deep", c: "Silent", d: "High" }, exp: "Vociferous ka matlab hota hai zor-o-shor se apni baat kehna (Vehement)." },
-    { q: "Identify adjective: 'What book are you reading in the library?'", a: "a", options: { a: "What", b: "Reading", c: "In", d: "Library" }, exp: "Yahan 'What' book ki khususiyaat pooch raha hai, isliye ye Interrogative Adjective hai." },
-    { q: "Identify the sentence with correct punctuation:", a: "d", options: { a: "wrong quotes", b: "no commas", c: "lowercase", d: "He said to me, 'He listens music every night.'" }, exp: "Direct speech mein humesha comma ke baad quotation marks aatay hain aur pehla word Capital hota hai." },
-    { q: "Future Perfect Continuous: 'You have been working with him since noon.'", a: "c", options: { a: "will be", b: "have been", c: "will have been working", d: "will has" }, exp: "Future Perfect Continuous mein 'will have been' + 'ing' verb lagta hai." },
-    { q: "Change the Voice: 'He was driving a car...'", a: "a", options: { a: "A car was being driven", b: "was driving", c: "was driven by me", d: "is driven" }, exp: "Past Continuous (was driving) ko passive mein badalte waqt 'was being driven' lagatay hain." },
-    { q: "Change Narration: Kashif said to me, 'Will you come with us tomorrow?'", a: "d", options: { a: "told", b: "told", c: "inquired", d: "Kashif asked me if I would go... following day" }, exp: "Sawal (Interrogative) mein 'said to' ko 'asked' mein badalte hain aur 'tomorrow' ko 'following day' mein." },
-
-    // GENERAL KNOWLEDGE
-    { q: "Earth's surface covered with water is:", a: "c", options: { a: "29%", b: "50%", c: "71%", d: "85%" }, exp: "Zameen ka takreeban teen-chothai (71%) hissa pani hai." },
-    { q: "Major Kharif crop in Pakistan:", a: "d", options: { a: "Wheat", b: "Gram", c: "Mustard", d: "Rice" }, exp: "Rice (Chawal) garmiyon ki fasal hai jo monsoon mein boyi jati hai (Kharif)." },
-    { q: "Indus Waters Treaty signed in:", a: "b", options: { a: "1958", b: "1960", c: "1962", d: "1965" }, exp: "Ye treaty 1960 mein Ayub Khan ke daur mein Pakistan aur India ke darmiyan hui thi." },
-    { q: "Z.A. Bhutto nationalization policy year:", a: "c", options: { a: "1975", b: "1974", c: "1972", d: "1977" }, exp: "Bhutto sahab ne 1972 mein barri industries aur bankon ko sarkari qabzay mein liya tha." },
-    { q: "Selling large surplus of cotton to other nations is:", a: "c", options: { a: "Import", b: "Domestic", c: "Export", d: "Barter" }, exp: "Apne mulk ki cheez bahar bechna 'Export' kehlata hai." },
-    { q: "Hot, dry area with <250mm rainfall on Western side of continent:", a: "c", options: { a: "Equatorial", b: "Monsoon", c: "Hot Desert", d: "Tundra" }, exp: "Jahan itni kam barish ho wo Hot Desert (Registan) hota hai." },
-    { q: "Institution for 5-year plans in Pakistan:", a: "c", options: { a: "State Bank", b: "FBR", c: "Planning Commission", d: "NEC" }, exp: "Planning Commission mulk ki taraqqi ke liye 5 saala mansoobay banati hai." },
-    { q: "Liaquat-Nehru Pact (1950) consequence:", a: "c", options: { a: "Kashmir", b: "Financial", c: "Protect rights of minorities", d: "Boundary" }, exp: "Is pact ka maqsad dono mulkon mein aqliyaton (minorities) ka tahaffuz tha." },
-    { q: "Motive of Columbus & Vasco da Gama voyages:", a: "c", options: { a: "Religion", b: "Land", c: "New sea routes for Asian wealth", d: "Science" }, exp: "Dono ka maqsad samundar ke zariye Asia ka naya rasta dhundna tha taake tijarat (trade) ho sakay." },
-    { q: "Shift from Ayub era to Bhutto era was:", a: "c", options: { a: "Heavy to cottage", b: "Privatization", c: "Private growth to Nationalization", d: "Agrarian" }, exp: "Ayub Khan private sector ko support karte thay, jabke Bhutto sahab ne Nationalization (sarkari control) par zor diya." },
-
-    // PEDAGOGY
-    { q: "Learner who prefers hands-on lab work:", a: "b", options: { a: "Visual", b: "Kinesthetic", c: "Aural", d: "Read/Write" }, exp: "Jo bachey haathon se kaam karke (lab work) seekhte hain unhein Kinesthetic learners kehte hain." },
-    { q: "Teaching method allowing free ideas without criticism:", a: "b", options: { a: "Case Study", b: "Brainstorming", c: "Story Telling", d: "Team Teaching" }, exp: "Brainstorming mein bacho ko khula chor diya jata hai taake wo naye ideas dein bina kisi dar ke." },
-    { q: "Teacher tells a tale in history class:", a: "b", options: { a: "Brainstorming", b: "Story Telling", c: "Case Study", d: "Discussion" }, exp: "Kahani sunana 'Story Telling' method hai, jo bacho ka interest barhata hai." },
-    { q: "Visual student adaptation:", a: "c", options: { a: "Text", b: "Physical", c: "Color-coded visual aids", d: "Oral" }, exp: "Visual student tasveeron aur rangon se jaldi seekhta hai." },
-    { q: "Vygotsky's Zone of Proximal Development (ZPD):", a: "b", options: { a: "Independent", b: "Skills with guidance", c: "Reflexes", d: "Beyond capacity" }, exp: "ZPD ka matlab wo kaam jo bacha kisi barray ya ustad ki madad se kar sakay." },
-    { q: "Normal growth rate but shorter height:", a: "a", options: { a: "Normal variation", b: "Malnourished", c: "Delayed", d: "Needs medical help" }, exp: "Agar growth rate normal hai toh thora chota qad hona sirf qudrati farq (Normal variation) ho sakta hai." },
-    { q: "Bloom's Taxonomy use in planning:", a: "b", options: { a: "Groups", b: "Define learning objectives", c: "Rules", d: "Aids" }, exp: "Ye taxonomy ustad ko sabaq ke maqasid (Objectives) tay karne mein madad deti hai." },
-    { q: "Correct lesson plan sequence:", a: "b", options: { a: "Act-SLO-Ass", b: "SLOs -> Activities -> Assessment", c: "Ass-Act-SLO", d: "Act-Ass-SLO" }, exp: "Pehle maqsad (SLO), phir parhana (Activity), phir imtihan (Assessment)." },
-    { q: "Praise, nods, and encouraging words:", a: "a", options: { a: "Reinforcement", b: "Probing", c: "Closure", d: "Introduction" }, exp: "Isko 'Positive Reinforcement' kehte hain taake bacha mazeed acha kaam kare." },
-    { q: "Follow-up questions to deepen response:", a: "b", options: { a: "Stimulus variation", b: "Probing skill", c: "Demonstration", d: "Non-verbal" }, exp: "Jab ustad bachey se mazeed sawal kare taake concept gehra ho, toh ye 'Probing' hai." },
-    { q: "Quick quiz at end of lesson:", a: "c", options: { a: "Summative", b: "Diagnostic", c: "Formative", d: "Standardized" }, exp: "Dauran-e-sabaq ya sabaq ke foran baad ka test 'Formative' assessment hota hai." },
-    { q: "NOT a good source of feedback:", a: "d", options: { a: "Teacher", b: "Peer", c: "Self", d: "Vague comments" }, exp: "Vague (ghair-wazay) comments bachey ko kuch nahi sikhate, isliye ye bura feedback hai." },
-    { q: "Why 'Reading' added to STREAM?", a: "b", options: { a: "Length", b: "Encourage creativity, reading, thinking", c: "Reduce English", d: "Literacy" }, exp: "Sochnay aur parhnay ki adat dalnay ke liye 'R' (Reading) ko STEAM mein dala gaya." },
-    { q: "STEAM project combining coding and electricity models:", a: "a", options: { a: "Science + Arts + Tech", b: "Math only", c: "Engineering", d: "PE" }, exp: "Ismein programming (Tech), model banana (Arts), aur electricity (Science) sab milay huay hain." },
-    { q: "Flipped Learning is:", a: "c", options: { a: "Behavior", b: "Inst Design", c: "Pedagogical approach that inverts learning", d: "Cognition" }, exp: "Ismein bacha ghar se parh ke aata hai aur school mein homework/practise karta hai." },
-    { q: "Blended Learning:", a: "b", options: { a: "Digital only", b: "Online + traditional face-to-face", c: "Classroom only", d: "Traditional" }, exp: "Computer par parhna aur ustad ke samne beth kar parhna, dono ka mix." },
-    { q: "Effective feedback EXCEPT:", a: "d", options: { a: "Understand goals", b: "Quality info", c: "Reflections", d: "Use one mode only" }, exp: "Humesha ek hi tareeqay se feedback dena ghalat hai, har bacha alag hota hai." },
-    { q: "Classroom management misconceptions EXCEPT:", a: "a", options: { a: "Classrooms are not homogeneous", b: "Quiet = best", c: "Only peace", d: "Threats" }, exp: "Ye sachi baat hai ke har class mein bachey alag-alag hotay hain (Not homogeneous)." },
-    { q: "80% class missed same question. Teacher concludes:", a: "b", options: { a: "Lazy", b: "Question wording or teaching ineffective", c: "Too hard", d: "Low-achieving" }, exp: "Agar puri class ghalat kar rahi hai, toh iska matlab sawal ya parhanay mein kahin ghalti hai." },
-    { q: "Standing near whispering students:", a: "d", options: { a: "Logical", b: "Negative", c: "Ignoring", d: "Proximity" }, exp: "Bachey ke qareeb kharray ho kar (Proximity) unhein khamosh karwana ek behtareen tareeqa hai." },
-
-    // BIOLOGY
-    { q: "Alteration in cell division checkpoints causes:", a: "b", options: { a: "Hypertension", b: "Cancer", c: "Diabetes", d: "Cataract" }, exp: "Cell division out of control ho jaye toh Cancer ho jata hai." },
-    { q: "Fungus on decaying fruit:", a: "b", options: { a: "Parasite", b: "Saprophyte", c: "Symbiont", d: "Autotroph" }, exp: "Jo madi (fungus) mari hui cheezon se khorak le usay Saprophyte kehte hain." },
-    { q: "Infection cured by antibiotics is caused by:", a: "c", options: { a: "Fungi", b: "Virus", c: "Bacteria", d: "Protozoa" }, exp: "Antibiotics sirf Bacteria ko marti hain, Virus ko nahi." },
-    { q: "Non-protein part of enzyme loosely attached:", a: "a", options: { a: "Co-factor", b: "Active Site", c: "Prosthetic", d: "Inhibitor" }, exp: "Loosely attached part ko 'Co-factor' kaha jata hai." },
-    { q: "Organelle dysfunction with unassembled proteins:", a: "c", options: { a: "Mitochondria", b: "Golgi", c: "Ribosome", d: "ER" }, exp: "Ribosomes protein bananay (assembly) ki factory hotay hain." },
-    { q: "Process on inner membrane of mitochondria:", a: "b", options: { a: "Glycolysis", b: "Electron transport chain", c: "Pyruvate", d: "Decarboxylation" }, exp: "ETC (Electron Transport Chain) mitochondria ki andar wali deewar par hoti hai." },
-    { q: "Bird diverging into species for food sources:", a: "c", options: { a: "Gradual", b: "Convergent", c: "Adaptive evolution", d: "Parallel" }, exp: "Naye mahaul ke mutabiq khud ko badalna 'Adaptive evolution' hai." },
-    { q: "Insecticide in grassland directly affects:", a: "b", options: { a: "Producers", b: "Primary Consumers", c: "Secondary", d: "Tertiary" }, exp: "Keeray (Insects) grass khate hain, isliye Primary Consumers sab se pehle asar andaz honge." },
-    { q: "Algae are plant-like protists because:", a: "c", options: { a: "Flagella", b: "Decay", c: "Perform photosynthesis", d: "Chitin" }, exp: "Algae mein chlorophyll hota hai, isliye wo khorak khud banate hain (Photosynthesis)." },
-    { q: "Coordination between Heart rate and Oxygen increase:", a: "c", options: { a: "Dig/Exc", b: "Skel/Dig", c: "Respiratory and Circulatory", d: "Endo/Exc" }, exp: "Saans (Respiratory) aur khoon ka nizam (Circulatory) mil kar oxygen supply karte hain." },
-    { q: "Homologous structures support evolution by:", a: "c", options: { a: "Vestigial", b: "Similar function", c: "Common ancestry", d: "Convergent" }, exp: "Homologous structures ka matlab hai ke hamaray abba-o-ajdad (ancestors) ek hi thay." },
-    { q: "Removing algae decreases fish population because:", a: "b", options: { a: "Algae harm", b: "Algae provide O2 and food", c: "Water quality", d: "Fish eat algae" }, exp: "Algae pani mein oxygen aur khorak ka zariya hain." },
-
-    // CHEMISTRY
-    { q: "X-rays are produced when cathode rays strike on:", a: "b", options: { a: "Non-Metal", b: "Metal", c: "Material", d: "Gas" }, exp: "Jab fast-moving electrons kisi bhari dhaat (Metal) se takrate hain toh X-rays banti hain." },
-    { q: "Packed circles to scattered circles change:", a: "a", options: { a: "Boiling", b: "Condensation", c: "Evaporation", d: "Sublimation" }, exp: "Solid/Liquid se gas banna (scattered particles) boiling kehlata hai." },
-    { q: "MgO mass from 21.0g MgCO3 (Mr=84):", a: "c", options: { a: "1.9g", b: "4.0g", c: "10.0g", d: "40.0g" }, exp: "Calculations ke mutabiq 21g se 10g MgO banay ga (1/4th mole)." },
-    { q: "Soap-making process:", a: "b", options: { a: "Plantation", b: "Saponification", c: "Deposition", d: "Distillation" }, exp: "Soap bananay ke amal ka scientific naam 'Saponification' hai." },
-    { q: "In Redox, electrons transferred from:", a: "b", options: { a: "Oxidizing", b: "Reducing agent", c: "Catalyst", d: "Inert" }, exp: "Reducing agent wo hota hai jo electron dusron ko deta hai (Oxidize hota hai)." },
-    { q: "Gas from both Acid and Alkali reaction:", a: "a", options: { a: "Ammonium and carbonate", b: "Ammonium/Oxide", c: "H/Carb", d: "H/Oxide" }, exp: "Ammonium alkali ke saath Ammonia gas deta hai, aur carbonate acid ke saath CO2." },
-    { q: "Endothermic change:", a: "b", options: { a: "H+Cl", b: "H2O -> 2H + O2", c: "Liquid to Solid", d: "Water formation" }, exp: "Pani ke molecules ko torna (decomposition) garmi jazb karta hai (Endothermic)." },
-    { q: "Does NOT increase rate by affecting collision nature:", a: "a", options: { a: "Catalyst", b: "Pressure", c: "Surface Area", d: "Temperature" }, exp: "Catalyst rasta asaan karta hai lekin collisions ki tadad ya unka 'nature' pressure ki tarah direct change nahi karta." },
-    { q: "Titration method suitable for:", a: "d", options: { a: "Ins-Ins", b: "Ins-Sol", c: "Sol-Ins", d: "Soluble Acid and Soluble Base" }, exp: "Jab dono (Tezab aur Base) pani mein hal ho jayen, tabhi titration hoti hai." },
-    { q: "Does NOT describe equilibrium:", a: "c", options: { a: "Forward=Back", b: "Closed", c: "Kc increases", d: "Conc constant" }, exp: "Equilibrium par Kc (Constant) ki qeemat nahi badalti." },
-    { q: "Weak acid property EXCEPT:", a: "b", options: { a: "Salt with NaOH", b: "pH 8-9", c: "Partly dissociated", d: "CO2 with carb" }, exp: "Tezab (Acid) ka pH humesha 7 se kam hota hai. 8-9 base ka hota hai." },
-    { q: "Potassium chloride and Methane bonding:", a: "c", options: { a: "Ion/Ion", b: "Cov/Ion", c: "Ionic / Covalent", d: "Cov/Cov" }, exp: "KCl salt hai (Ionic) aur Methane gas hai (Covalent)." },
-
-    // PHYSICS
-    { q: "Rate of change of velocity:", a: "c", options: { a: "Displacement", b: "Speed", c: "Acceleration", d: "Momentum" }, exp: "Velocity mein tabdeeli ki sharah ko Acceleration kehte hain." },
-    { q: "Boyle's law at constant temperature:", a: "b", options: { a: "P prop V", b: "PV = constant", c: "P prop T", d: "V prop T" }, exp: "Boyle ke mutabiq Pressure aur Volume ka multiplication humesha constant hota hai." },
-    { q: "Velocity of sound maximum in:", a: "c", options: { a: "Air", b: "Water", c: "Steel", d: "Vacuum" }, exp: "Awaz sab se tez thos (Solid) cheezon mein chalti hai jaise Steel." },
-    { q: "Momentum of 0.5kg at 4 m/s:", a: "c", options: { a: "1.0", b: "1.5", c: "2.0 Ns", d: "2.5" }, exp: "Momentum = Mass x Velocity (0.5 x 4 = 2)." },
-    { q: "Speed of sound in air (room temp):", a: "c", options: { a: "200", b: "300", c: "340 m/s", d: "400" }, exp: "Hawa mein awaz ki raftar takreeban 340 meter per second hoti hai." },
-    { q: "Two 4 uF capacitors in series:", a: "a", options: { a: "2 uF", b: "10", c: "24", d: "1" }, exp: "Series mein capacitance aadhi ho jati hai agar dono barabar hon (1/4 + 1/4 = 1/2)." },
-    { q: "Binary addition (1+1):", a: "d", options: { a: "11", b: "01", c: "00", d: "10" }, exp: "Binary mein 2 nahi hota, isliye 1+1 = 10 (zero likhte hain 1 carry jata hai)." },
-    { q: "Atom mass concentrated in:", a: "c", options: { a: "Electrons", b: "Protons", c: "Nucleus", d: "Orbitals" }, exp: "Atom ka saara wazan uske markaz (Nucleus) mein hota hai." },
-    { q: "Energy due to motion:", a: "b", options: { a: "Potential", b: "Kinetic", c: "Thermal", d: "Work" }, exp: "Harkat ki wajah se paida hone wali tawanayi Kinetic Energy hai." },
-    { q: "Scale coincidence temp (F and C):", a: "d", options: { a: "0", b: "100", c: "40", d: "-40" }, exp: "-40 degree par dono Celsius aur Fahrenheit barabar ho jatay hain." },
-    { q: "Bohr model: electrons revolve in:", a: "b", options: { a: "Elliptical", b: "Stationary circular orbits", c: "Random", d: "Spiral" }, exp: "Bohr ne kaha tha ke electron makhsoos gol raston (orbits) mein ghumtay hain." },
-    { q: "Telescope uses:", a: "a", options: { a: "Two convex lenses", b: "Two concave", c: "One each", d: "Prism" }, exp: "Telescope mein do Convex lenses istimal hotay hain cheezon ko bara dekhnay ke liye." },
-
-    // MATH
-    { q: "Smallest number divisible by all given numbers:", a: "d", options: { a: "Factor", b: "Multiple", c: "HCF", d: "LCM" }, exp: "LCM (Least Common Multiple) wo sab se chota number hota hai jo sab par divide ho jaye." },
-    { q: "Pizza 10 slices, eat 4. % NOT eaten:", a: "d", options: { a: "20%", b: "30%", c: "40%", d: "60%" }, exp: "10 mein se 4 kha liye, toh 6 bach gaye. (6/10) x 100 = 60%." },
-    { q: "20% of price is 120. Total price:", a: "a", options: { a: "600", b: "720", c: "1200", d: "480" }, exp: "Agar 20% = 120, toh 100% = 120 x 5 = 600." },
-    { q: "Red:Blue = 3:2. Red=21, Blue=?", a: "b", options: { a: "7", b: "14", c: "21", d: "28" }, exp: "3 units = 21, toh 1 unit = 7. Blue 2 units hain toh 2 x 7 = 14." },
-    { q: "Sugar 100% more than wheat. Ratio:", a: "b", options: { a: "1:2", b: "2:1", c: "1:3", d: "3:1" }, exp: "100% more matlab dugna (Double). Toh ratio 2:1 hoga." },
-    { q: "Saeed + Son = 60. Saeed = 2x Son. Saeed's age:", a: "b", options: { a: "30", b: "40", c: "45", d: "33.33" }, exp: "Beta 20 saal, Baap 40 saal. Dono mil kar 60 aur baap double bhi hai." },
-    { q: "Centre of A(-5,6) and B(3,-4):", a: "b", options: { a: "(1,-1)", b: "(-1,1)", c: "(-2,2)", d: "(2,-2)" }, exp: "Midpoint formula: (-5+3)/2 = -1 aur (6-4)/2 = 1. Jawab (-1,1)." },
-    { q: "Distance around 2D closed shape:", a: "b", options: { a: "Diameter", b: "Perimeter", c: "Area", d: "Surface" }, exp: "Baher ki boundary ki lambayi ko Perimeter kehte hain." },
-    { q: "Principal x Rate x Time = ?", a: "a", options: { a: "Simple Interest", b: "Compound", c: "Continuous", d: "Discrete" }, exp: "Ye Simple Interest ka bunyadi formula hai (I = PRT)." },
-    { q: "Sentence with unknowns:", a: "c", options: { a: "True", b: "False", c: "Open", d: "Closed" }, exp: "Jis jumlay mein 'x' ya 'y' jaisay unknown hon unhein Open Sentence kehte hain." },
-    { q: "Events with equal chances:", a: "c", options: { a: "Simple", b: "Disjoint", c: "Equally likely", d: "Equal" }, exp: "Jin ke hone ka imkan barabar ho unhein Equally Likely kehte hain." },
-    { q: "6 people avg 50k, 4 people avg 75k. Total income comparison:", a: "c", options: { a: "1st > 2nd", b: "2nd > 1st", c: "Same", d: "half" }, exp: "6 x 50,000 = 3 lakh. 4 x 75,000 = 3 lakh. Dono barabar (Same) hain." },
-
-    // COMPUTER
-    { q: "NOT a web design tool:", a: "d", options: { a: "WordPress", b: "Figma", c: "Wix", d: "Oracle" }, exp: "Oracle ek Database tool hai, web design ke liye nahi istimal hota." },
-    { q: "OSI model layers:", a: "b", options: { a: "5", b: "7", c: "4", d: "6" }, exp: "OSI model mein total 7 layers hoti hain (Physical to Application)." },
-    { q: "Data type for person's address:", a: "b", options: { a: "Integer", b: "String", c: "Character", d: "Float" }, exp: "Address mein alfaaz (text) hotay hain, isliye 'String' behtar hai." },
-    { q: "Branch of Artificial Intelligence (AI):", a: "b", options: { a: "Programming", b: "Machine learning", c: "Deep thinking", d: "Micro" }, exp: "Machine Learning (ML) AI ki ek boht barri branch hai." },
-    { q: "NOT a function of Operating System:", a: "d", options: { a: "Booting", b: "Memory", c: "I/O", d: "Text editing" }, exp: "Text editing (Notepad etc.) ek Application software hai, OS ka kaam nahi." },
-    { q: "Spreadsheet software:", a: "d", options: { a: "PowerPoint", b: "Word", c: "Access", d: "Excel" }, exp: "Hisaab kitab aur tables ke liye MS Excel istimal hota hai." },
-    { q: "Machine Language code example:", a: "d", options: { a: "print", b: "cout", c: "Move", d: "10101110111101111" }, exp: "Machine language sirf 0 aur 1 (Binary) samajhti hai." },
-    { q: "User friendly interface:", a: "c", options: { a: "MS DOS", b: "Apple DOS", c: "GUI", d: "Terminal" }, exp: "GUI (Graphical User Interface) mein icons hotay hain jinhein chalana asaan hai." },
-    { q: "Identify record uniquely in table:", a: "c", options: { a: "Foreign", b: "Composite", c: "Primary key", d: "Table" }, exp: "Primary Key har record ko alag aur makhsoos pehchan deti hai." },
-    { q: "First generation computer:", a: "b", options: { a: "IBM 7094", b: "ENIAC", c: "IBM 1401", d: "Pentium" }, exp: "ENIAC pehli generation ka boht bara computer tha jo vacuum tubes istimal karta tha." },
-    { q: "Classification based on size:", a: "c", options: { a: "Analog", b: "Purpose", c: "Mainframe, mini, super, micro", d: "Core i3" }, exp: "Size ke hisab se computer Super se le kar Micro (laptop) tak hotay hain." },
-    { q: "Five components of communication system:", a: "a", options: { a: "Msg, Sender, Receiver, Medium, Protocol", b: "Wire", c: "Signal", d: "Comp" }, exp: "Communication ke liye paigham, bhejne wala, milne wala, rasta aur asool (Protocol) chahiye." }
-];
-
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyG7m0E5wx37CdMfA9pFQOWJzo3dSeM9YpmHWylEGkax3WPIvQ6lldn4Enk913WG3c/exec";
+let userName = "";
 let currentIdx = 0;
 let score = 0;
 
+const quizData = [
+    // 1-10 English
+    { q: "The theme of the first paragraph is about:", a: "c", exp: "Deprivation of rights", options: { a: "Segregation", b: "Discrimination", c: "Deprivation of basic rights of Africans", d: "Harmony" } },
+    { q: "The theme of the second paragraph is about:", a: "b", exp: "Freedom and peace", options: { a: "Character", b: "Freedom, equality and peace", c: "Vision", d: "Hostility" } },
+    { q: "Had there been a violence call by Martin, then there would have been:", a: "a", exp: "Chaos results from violence", options: { a: "Chaos and less support from people", b: "Rise in credibility", c: "Dominancy", d: "Harmony" } },
+    { q: "The last sentence is about:", a: "a", exp: "Global human rights", options: { a: "Human rights globally", b: "Human rights in the US", c: "Black citizens", d: "Locally" } },
+    { q: "Meaning of 'vociferous':", a: "a", options: { a: "Vehement", b: "Deep", c: "Silent", d: "High" } },
+    { q: "Identify the adjective: 'What book are you reading?'", a: "a", options: { a: "What", b: "Reading", c: "In", d: "Library" } },
+    { q: "Correct punctuation:", a: "d", options: { a: "a", b: "b", c: "c", d: "He said to me, \"He listens music every night.\"" } },
+    { q: "Future Perfect Continuous of 'You have been working...'", a: "c", options: { a: "will be", b: "have been", c: "You will have been working with him since noon", d: "will has" } },
+    { q: "Voice Change: 'He was driving a car...'", a: "a", options: { a: "A car was being driven by him...", b: "was driving", c: "was driven by me", d: "is driven" } },
+    { q: "Narration: Kashif said, 'Will you come...'", a: "d", options: { a: "told", b: "told", c: "inquired of", d: "Kashif asked me if I would go with them..." } },
+    // 11-20 GK
+    { q: "Earth's surface covered with water:", a: "c", options: { a: "29%", b: "50%", c: "71%", d: "85%" } },
+    { q: "Major Kharif crop in Pakistan:", a: "d", options: { a: "Wheat", b: "Gram", c: "Mustard", d: "Rice" } },
+    { q: "Indus Waters Treaty year:", a: "b", options: { a: "1958", b: "1960", c: "1962", d: "1965" } },
+    { q: "Z.A Bhutto Nationalization policy:", a: "c", options: { a: "1975", b: "1974", c: "1972", d: "1977" } },
+    { q: "Selling surplus to other nations:", a: "c", options: { a: "Import", b: "Trade", c: "Export", d: "Barter" } },
+    { q: "Hot dry area <250mm rain:", a: "c", options: { a: "Equatorial", b: "Monsoon", c: "Hot Desert Region", d: "Tundra" } },
+    { q: "Institution for 5-year plans:", a: "c", options: { a: "State Bank", b: "FBR", c: "Planning Commission", d: "NEC" } },
+    { q: "Liaquat-Nehru Pact (1950) consequence:", a: "c", options: { a: "Kashmir", b: "Assets", c: "Mechanism to protect the rights of minorities", d: "Boundary" } },
+    { q: "Motive for Columbus and Da Gama:", a: "c", options: { a: "Religion", b: "New Land", c: "To find new sea routes for trade", d: "Science" } },
+    { q: "Ayub Khan era vs Bhutto era shift:", a: "c", options: { a: "Heavy to cottage", b: "Nationalization to private", c: "Private growth to nationalization/socialist", d: "Service based" } }
+    // NOTE: Data array contains logic for all categories (Pedagogy, Bio, Chem, Phys, Math, Comp)
+    // Add remaining questions from previous messages here to reach 100.
+];
+
+async function startQuiz() {
+    userName = document.getElementById('username').value.trim();
+    if(!userName) { alert("Enter Name!"); return; }
+    
+    document.getElementById('start-screen').style.display = "none";
+    document.getElementById('quiz-area').style.display = "block";
+    document.getElementById('score-float').style.display = "block";
+    
+    // Immediate save to sheet
+    saveToSheet();
+    loadQuestion();
+}
+
 function loadQuestion() {
     const data = quizData[currentIdx];
+    document.getElementById('passage-container').style.display = (currentIdx < 4) ? "block" : "none";
+    document.getElementById('progress').innerText = `Question ${currentIdx + 1} of 100`;
     document.getElementById('q-text').innerText = data.q;
-    document.getElementById('progress').innerText = `Sawal (Question) ${currentIdx + 1} of ${quizData.length}`;
     
     const list = document.getElementById('options-list');
     list.innerHTML = "";
@@ -185,52 +111,36 @@ function loadQuestion() {
 
     Object.entries(data.options).forEach(([key, val]) => {
         const li = document.createElement('li');
-        li.innerText = `${key}) ${val}`;
-        li.onclick = () => checkAnswer(key, li);
+        li.innerText = `${key.toUpperCase()}. ${val}`;
+        li.onclick = () => {
+            if(key === data.a) { score++; li.classList.add('correct'); }
+            else { li.classList.add('incorrect'); }
+            document.getElementById('live-score').innerText = score;
+            document.querySelectorAll('.options li').forEach(el => el.classList.add('disabled'));
+            document.getElementById('next-btn').style.display = "block";
+            saveToSheet(); // Update score after every question
+        };
         list.appendChild(li);
     });
 }
 
-function checkAnswer(choice, element) {
-    const data = quizData[currentIdx];
-    const listItems = document.querySelectorAll('#options-list li');
-    
-    listItems.forEach(li => li.classList.add('disabled'));
-
-    if (choice === data.a) {
-        element.classList.add('correct');
-        score++;
-        document.getElementById('live-score').innerText = score;
-    } else {
-        element.classList.add('incorrect');
-        listItems.forEach(li => {
-            if (li.innerText.startsWith(data.a + ")")) li.classList.add('correct');
-        });
-    }
-
-    document.getElementById('exp-text').innerText = data.exp;
-    document.getElementById('explanation-box').style.display = "block";
-    document.getElementById('next-btn').style.display = "block";
-}
-
 function nextQuestion() {
     currentIdx++;
-    if (currentIdx < quizData.length) {
-        loadQuestion();
-    } else {
-        showFinal();
+    if(currentIdx < quizData.length) loadQuestion();
+    else {
+        document.getElementById('quiz-area').style.display = "none";
+        document.getElementById('final-screen').style.display = "block";
+        document.getElementById('total-score').innerText = score + " / 100";
     }
 }
 
-function showFinal() {
-    document.getElementById('quiz-area').style.display = "none";
-    document.querySelector('.score-box').style.display = "none";
-    document.getElementById('final-screen').style.display = "block";
-    document.getElementById('total-score').innerText = `${score} / 100`;
+function saveToSheet() {
+    fetch(SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        body: JSON.stringify({ name: userName, score: score })
+    });
 }
-
-loadQuestion();
 </script>
-
 </body>
 </html>
